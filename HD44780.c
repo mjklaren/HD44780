@@ -56,26 +56,27 @@
 #include "ShiftRegister.c"
 
 #define HD44780_DEFAULT                 0
-#define HD44780_DELAY                   50   // Processing delay of HD44780 in usec
+#define HD44780_DELAY                   50   // Delay for shift registers, as the HD44780 is a bit slower (in usec).
 #define HD44780_RSCOMMAND               0
 #define HD44780_RSDATA                  16
+#define HD44780_PROCESSING_DELAY        2    // Processing delay for certain commands (in msec).
 
 // Select which displays are communicated with; values for all combinations for display #0 to #2. For use in ´HD44780SetActiveDisplays´.
-#define HD44780_ENABLEHIGH0             32
-#define HD44780_ENABLEHIGH01            96
-#define HD44780_ENABLEHIGH02            160
-#define HD44780_ENABLEHIGH1             64
-#define HD44780_ENABLEHIGH12            192
-#define HD44780_ENABLEHIGH2             128
-#define HD44780_ENABLEHIGHALL           224  
-#define HD44780_ENABLELOW               0
+#define HD44780_ENABLEHIGH0             32   // Only display #0
+#define HD44780_ENABLEHIGH01            96   // Display #0 and display #1
+#define HD44780_ENABLEHIGH02            160  // Display #0 and display #2
+#define HD44780_ENABLEHIGH1             64   // Only display #1
+#define HD44780_ENABLEHIGH12            192  // Display #1 and display #2
+#define HD44780_ENABLEHIGH2             128  // Only display 2
+#define HD44780_ENABLEHIGHALL           224  // All displays
+#define HD44780_ENABLELOW               0     
 
 // Available instructions - see also https://www.sparkfun.com/datasheets/LCD/HD44780.pdf
 #define HD44780_CLEARDISPLAY            1
 #define HD44780_CURSORHOME              2
 #define HD44780_ENTRYMODESET            4
 #define HD44780_DISPLAYONOFFCONTROL     8
-#define HD44780_CURSORDISPLAYSHIFT      16
+#define HD44780_CURSORDISPLAYSHIFT      16   // Includes commands for the cursor
 #define HD44780_FUNCTIONSET             32
 #define HD44780_SETCGRAMADDRESS         64
 #define HD44780_SETDDRAMADDRESS         128
@@ -88,11 +89,9 @@
 #define HD44780_DISPLAYSHIFT            1
 
 // Display on/off instruction
-#define HD44780_DISPLAYOFF              0
+#define HD44780_OFF                     0    // Display, cursor and cursor blink off.
 #define HD44780_DISPLAYON               4
-#define HD44780_CURSOROFF               0
 #define HD44780_CURSORON                2
-#define HD44780_CURSORBLINKOFF          0
 #define HD44780_CURSORBLINKON           1
 
 // Cursor/display shift instruction
@@ -103,11 +102,11 @@
 
 // Function set instruction
 #define HD44780_4BITINTERFACE           0
-#define HD44780_8BITINTERFACE           16  // Only to be used to initialize the controller
-#define HD44780_DUTY1LINE               0   // 1/8 or 1/11 duty (1 line)
-#define HD44780_DUTY2LINES              8   // 1/16 duty (2 lines); requires 5x8 dots font
+#define HD44780_8BITINTERFACE           16   // Only to be used to initialize the controller
+#define HD44780_DUTY1LINE               0    // 1/8 or 1/11 duty (1 line)
+#define HD44780_DUTY2LINES              8    // 1/16 duty (2 lines); requires 5x8 dots font
 #define HD44780_5X8DOTS                 0
-#define HD44780_5X10DOTS                4   // Can only be used in combination with HD44780_DUTY1LINE
+#define HD44780_5X10DOTS                4    // Can only be used in combination with HD44780_DUTY1LINE
 
 
 
@@ -172,6 +171,10 @@ void HD44780Write(HD44780Display *Display, char *Text)
 void HD44780Command(HD44780Display *Display, uint8_t Command, uint8_t Parameters)
 {
   HD44780WriteByte(Display,true,Command|Parameters);
+
+  // Some commands require additional processing delay.
+  if(Command==HD44780_CLEARDISPLAY || Command==HD44780_CURSORHOME)
+    sleep_ms(HD44780_PROCESSING_DELAY);
 }
 
 
