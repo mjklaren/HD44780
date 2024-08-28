@@ -10,6 +10,7 @@ This library can control each display individually, in any combination or all at
 See the file "HD44780_demo.c" for some example code.
 
 ![HD44780_demo](https://github.com/user-attachments/assets/468772e8-1e26-4249-899e-d1ef2dbcdb24)
+
 (two displays connected; the demo supports three)
 
 See https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller and https://www.sparkfun.com/datasheets/LCD/HD44780.pdf for more technical details.
