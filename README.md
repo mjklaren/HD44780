@@ -9,7 +9,7 @@ This library can control each display individually, in any combination or all at
 
 See the file "HD44780_demo.c" for some example code.
 
-![HD44780_demo](https://github.com/user-attachments/assets/468772e8-1e26-4249-899e-d1ef2dbcdb24)
+<img width="1109" height="663" alt="Scherm­afbeelding 2026-07-25 om 16 49 23" src="https://github.com/user-attachments/assets/0ae52079-2f0a-4182-8b7e-0152c9371797" />
 
 (two displays connected; the demo supports three)
 
