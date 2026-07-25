@@ -19,8 +19,8 @@
                           VCC   (16) ---- +5V
    DATA_PIN  ------------ DS    (14)                                           Data
                           ~OE   (13) ---- Ground                               Enable (active low)
-   CLOCK_PIN ------------ ST_CP (12)                                           Clock
-   LATCH_PIN ------------ SH_CP (11)                                           Latch
+   CLOCK_PIN ------------ SH_CP (11)                                           Data clock
+   LATCH_PIN ------------ ST_CP (12)                                           Latch (data shift to pins)
                           ~MR   (10) ---- +5V
                           ~Q7   (9)                                            Not used 
                           GND   (8)  ---- Ground
@@ -53,7 +53,7 @@
 #define MyHardwareHD44780
 
 
-#include "ShiftRegister.c"
+#include "Shiftregister/ShiftRegister.c"
 
 #define HD44780_DEFAULT                 0
 #define HD44780_DELAY                   50   // Delay for shift registers, as the HD44780 is a bit slower (in usec).
